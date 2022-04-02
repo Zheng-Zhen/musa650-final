@@ -1,19 +1,33 @@
 # Proposal
 Author: Zhenzhao Xu, Shaun Zheng
 
+## Preliminary Report
 
-## Abstract
+  - [Abstract](#abstract)
+  - [Project Method](#project-method)
+    - [Method 0](#method-0)
+    - [Method 1](#method-1)
+  - [Data sources](#data-sources)
 
-## Project Diagram
+### Abstract
+
+### Project Method
+
+#### Method 0
 
 ```mermaid
 graph LR
 A --> B
 ```
 
-## Goal
+#### Method 1
 
-## Data sources
+```mermaid
+graph LR
+B --> C
+```
+
+### Data sources
 
 | Data | Source | Description |
 | ---- | ------ | ----------- |
