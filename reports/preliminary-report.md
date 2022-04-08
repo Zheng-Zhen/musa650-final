@@ -29,11 +29,10 @@ graph TB
 
 ```mermaid
 graph TB
-1[Unet Segmentation Model]
-2[Satellite Building Masks]
-3["Mask Comparing Algorithm (24 Masks Monthly)"]
-4[Heatmaps of Different Types of Building Footprint Changes]
-1 --> |"What type of building it is?"|2 --> 3 --> 4
+0[Statelite Images]
+1[CNN to Count the Building Number]
+2[Compare the building counts across years]
+0 --> 1 --> 2
 ```
 
 ## Data sources
