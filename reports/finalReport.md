@@ -45,7 +45,7 @@ def splitArray(arr, splitNum=4):
 
 Based on the use case, we choose U-Net as the model for image segmentation, the concept is shown as follows:
 
-<img src="https://raw.githubusercontent.com/ShaunZhxiong/ImgGarage/main/ShaunZhxiong/ImgGarage/img/image-20220416152209812.png" width=60%>
+<img src="https://raw.githubusercontent.com/ShaunZhxiong/ImgGarage/main/ShaunZhxiong/ImgGarage/img/YUKcLpTCB67fXTURoo6dmCGPIa2gMN2GtesUdf2kFuglWHQ3Wi5_UrB8Do9v16qzQCKYL0c6WTfGON1hzK5fFmbr2rrfH7liuW9j4DM_0bDBC9gfR9mPYUc9r1xgkRDdmCVVLbD3eT5_" width=80%>
 
 *Reference: [U-Net: Convolutional Networks for Biomedical Image Segmentation](https://arxiv.org/pdf/1505.04597.pdf)*
 
