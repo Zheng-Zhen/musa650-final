@@ -53,85 +53,91 @@ Based on the use case, we choose U-Net as the model for image segmentation, the 
 
 ### Structure
 
-| Layer | Name                   | Type               | Shape                 |
-| -----:|:---------------------- |:------------------ |:--------------------- |
-| 0     | input_1                | InputLayer         | [(None, 256, 256, 3)] |
-| 1     | conv2d                 | Conv2D             | (None, 128, 128, 32)  |
-| 2     | batch_normalization    | BatchNormalization | (None, 128, 128, 32)  |
-| 3     | activation             | Activation         | (None, 128, 128, 32)  |
-| 4     | activation_1           | Activation         | (None, 128, 128, 32)  |
-| 5     | separable_conv2d       | SeparableConv2D    | (None, 128, 128, 64)  |
-| 6     | batch_normalization_1  | BatchNormalization | (None, 128, 128, 64)  |
-| 7     | activation_2           | Activation         | (None, 128, 128, 64)  |
-| 8     | separable_conv2d_1     | SeparableConv2D    | (None, 128, 128, 64)  |
-| 9     | batch_normalization_2  | BatchNormalization | (None, 128, 128, 64)  |
-| 10    | max_pooling2d          | MaxPooling2D       | (None, 64, 64, 64)    |
-| 11    | conv2d_1               | Conv2D             | (None, 64, 64, 64)    |
-| 12    | add                    | Add                | (None, 64, 64, 64)    |
-| 13    | activation_3           | Activation         | (None, 64, 64, 64)    |
-| 14    | separable_conv2d_2     | SeparableConv2D    | (None, 64, 64, 128)   |
-| 15    | batch_normalization_3  | BatchNormalization | (None, 64, 64, 128)   |
-| 16    | activation_4           | Activation         | (None, 64, 64, 128)   |
-| 17    | separable_conv2d_3     | SeparableConv2D    | (None, 64, 64, 128)   |
-| 18    | batch_normalization_4  | BatchNormalization | (None, 64, 64, 128)   |
-| 19    | max_pooling2d_1        | MaxPooling2D       | (None, 32, 32, 128)   |
-| 20    | conv2d_2               | Conv2D             | (None, 32, 32, 128)   |
-| 21    | add_1                  | Add                | (None, 32, 32, 128)   |
-| 22    | activation_5           | Activation         | (None, 32, 32, 128)   |
-| 23    | separable_conv2d_4     | SeparableConv2D    | (None, 32, 32, 256)   |
-| 24    | batch_normalization_5  | BatchNormalization | (None, 32, 32, 256)   |
-| 25    | activation_6           | Activation         | (None, 32, 32, 256)   |
-| 26    | separable_conv2d_5     | SeparableConv2D    | (None, 32, 32, 256)   |
-| 27    | batch_normalization_6  | BatchNormalization | (None, 32, 32, 256)   |
-| 28    | max_pooling2d_2        | MaxPooling2D       | (None, 16, 16, 256)   |
-| 29    | conv2d_3               | Conv2D             | (None, 16, 16, 256)   |
-| 30    | add_2                  | Add                | (None, 16, 16, 256)   |
-| 31    | activation_7           | Activation         | (None, 16, 16, 256)   |
-| 32    | conv2d_transpose       | Conv2DTranspose    | (None, 16, 16, 256)   |
-| 33    | batch_normalization_7  | BatchNormalization | (None, 16, 16, 256)   |
-| 34    | activation_8           | Activation         | (None, 16, 16, 256)   |
-| 35    | conv2d_transpose_1     | Conv2DTranspose    | (None, 16, 16, 256)   |
-| 36    | batch_normalization_8  | BatchNormalization | (None, 16, 16, 256)   |
-| 37    | up_sampling2d_1        | UpSampling2D       | (None, 32, 32, 256)   |
-| 38    | up_sampling2d          | UpSampling2D       | (None, 32, 32, 256)   |
-| 39    | conv2d_4               | Conv2D             | (None, 32, 32, 256)   |
-| 40    | add_3                  | Add                | (None, 32, 32, 256)   |
-| 41    | activation_9           | Activation         | (None, 32, 32, 256)   |
-| 42    | conv2d_transpose_2     | Conv2DTranspose    | (None, 32, 32, 128)   |
-| 43    | batch_normalization_9  | BatchNormalization | (None, 32, 32, 128)   |
-| 44    | activation_10          | Activation         | (None, 32, 32, 128)   |
-| 45    | conv2d_transpose_3     | Conv2DTranspose    | (None, 32, 32, 128)   |
-| 46    | batch_normalization_10 | BatchNormalization | (None, 32, 32, 128)   |
-| 47    | up_sampling2d_3        | UpSampling2D       | (None, 64, 64, 256)   |
-| 48    | up_sampling2d_2        | UpSampling2D       | (None, 64, 64, 128)   |
-| 49    | conv2d_5               | Conv2D             | (None, 64, 64, 128)   |
-| 50    | add_4                  | Add                | (None, 64, 64, 128)   |
-| 51    | activation_11          | Activation         | (None, 64, 64, 128)   |
-| 52    | conv2d_transpose_4     | Conv2DTranspose    | (None, 64, 64, 64)    |
-| 53    | batch_normalization_11 | BatchNormalization | (None, 64, 64, 64)    |
-| 54    | activation_12          | Activation         | (None, 64, 64, 64)    |
-| 55    | conv2d_transpose_5     | Conv2DTranspose    | (None, 64, 64, 64)    |
-| 56    | batch_normalization_12 | BatchNormalization | (None, 64, 64, 64)    |
-| 57    | up_sampling2d_5        | UpSampling2D       | (None, 128, 128, 128) |
-| 58    | up_sampling2d_4        | UpSampling2D       | (None, 128, 128, 64)  |
-| 59    | conv2d_6               | Conv2D             | (None, 128, 128, 64)  |
-| 60    | add_5                  | Add                | (None, 128, 128, 64)  |
-| 61    | activation_13          | Activation         | (None, 128, 128, 64)  |
-| 62    | conv2d_transpose_6     | Conv2DTranspose    | (None, 128, 128, 32)  |
-| 63    | batch_normalization_13 | BatchNormalization | (None, 128, 128, 32)  |
-| 64    | activation_14          | Activation         | (None, 128, 128, 32)  |
-| 65    | conv2d_transpose_7     | Conv2DTranspose    | (None, 128, 128, 32)  |
-| 66    | batch_normalization_14 | BatchNormalization | (None, 128, 128, 32)  |
-| 67    | up_sampling2d_7        | UpSampling2D       | (None, 256, 256, 64)  |
-| 68    | up_sampling2d_6        | UpSampling2D       | (None, 256, 256, 32)  |
-| 69    | conv2d_7               | Conv2D             | (None, 256, 256, 32)  |
-| 70    | add_6                  | Add                | (None, 256, 256, 32)  |
-| 71    | conv2d_8               | Conv2D             | (None, 256, 256, 2)   |
-|       | Total param: 2,058,690 |                    |                       |
+| Layer | Name                       | Type               | Shape                 |
+| -----:|:-------------------------- |:------------------ |:--------------------- |
+| 0     | input_1                    | InputLayer         | [(None, 256, 256, 3)] |
+| 1     | conv2d                     | Conv2D             | (None, 128, 128, 32)  |
+| 2     | batch_normalization        | BatchNormalization | (None, 128, 128, 32)  |
+| 3     | activation                 | Activation         | (None, 128, 128, 32)  |
+| 4     | activation_1               | Activation         | (None, 128, 128, 32)  |
+| 5     | separable_conv2d           | SeparableConv2D    | (None, 128, 128, 64)  |
+| 6     | batch_normalization_1      | BatchNormalization | (None, 128, 128, 64)  |
+| 7     | activation_2               | Activation         | (None, 128, 128, 64)  |
+| 8     | separable_conv2d_1         | SeparableConv2D    | (None, 128, 128, 64)  |
+| 9     | batch_normalization_2      | BatchNormalization | (None, 128, 128, 64)  |
+| 10    | max_pooling2d              | MaxPooling2D       | (None, 64, 64, 64)    |
+| 11    | conv2d_1                   | Conv2D             | (None, 64, 64, 64)    |
+| 12    | add                        | Add                | (None, 64, 64, 64)    |
+| 13    | activation_3               | Activation         | (None, 64, 64, 64)    |
+| 14    | separable_conv2d_2         | SeparableConv2D    | (None, 64, 64, 128)   |
+| 15    | batch_normalization_3      | BatchNormalization | (None, 64, 64, 128)   |
+| 16    | activation_4               | Activation         | (None, 64, 64, 128)   |
+| 17    | separable_conv2d_3         | SeparableConv2D    | (None, 64, 64, 128)   |
+| 18    | batch_normalization_4      | BatchNormalization | (None, 64, 64, 128)   |
+| 19    | max_pooling2d_1            | MaxPooling2D       | (None, 32, 32, 128)   |
+| 20    | conv2d_2                   | Conv2D             | (None, 32, 32, 128)   |
+| 21    | add_1                      | Add                | (None, 32, 32, 128)   |
+| 22    | activation_5               | Activation         | (None, 32, 32, 128)   |
+| 23    | separable_conv2d_4         | SeparableConv2D    | (None, 32, 32, 256)   |
+| 24    | batch_normalization_5      | BatchNormalization | (None, 32, 32, 256)   |
+| 25    | activation_6               | Activation         | (None, 32, 32, 256)   |
+| 26    | separable_conv2d_5         | SeparableConv2D    | (None, 32, 32, 256)   |
+| 27    | batch_normalization_6      | BatchNormalization | (None, 32, 32, 256)   |
+| 28    | max_pooling2d_2            | MaxPooling2D       | (None, 16, 16, 256)   |
+| 29    | conv2d_3                   | Conv2D             | (None, 16, 16, 256)   |
+| 30    | add_2                      | Add                | (None, 16, 16, 256)   |
+| 31    | activation_7               | Activation         | (None, 16, 16, 256)   |
+| 32    | conv2d_transpose           | Conv2DTranspose    | (None, 16, 16, 256)   |
+| 33    | batch_normalization_7      | BatchNormalization | (None, 16, 16, 256)   |
+| 34    | activation_8               | Activation         | (None, 16, 16, 256)   |
+| 35    | conv2d_transpose_1         | Conv2DTranspose    | (None, 16, 16, 256)   |
+| 36    | batch_normalization_8      | BatchNormalization | (None, 16, 16, 256)   |
+| 37    | up_sampling2d_1            | UpSampling2D       | (None, 32, 32, 256)   |
+| 38    | up_sampling2d              | UpSampling2D       | (None, 32, 32, 256)   |
+| 39    | conv2d_4                   | Conv2D             | (None, 32, 32, 256)   |
+| 40    | add_3                      | Add                | (None, 32, 32, 256)   |
+| 41    | activation_9               | Activation         | (None, 32, 32, 256)   |
+| 42    | conv2d_transpose_2         | Conv2DTranspose    | (None, 32, 32, 128)   |
+| 43    | batch_normalization_9      | BatchNormalization | (None, 32, 32, 128)   |
+| 44    | activation_10              | Activation         | (None, 32, 32, 128)   |
+| 45    | conv2d_transpose_3         | Conv2DTranspose    | (None, 32, 32, 128)   |
+| 46    | batch_normalization_10     | BatchNormalization | (None, 32, 32, 128)   |
+| 47    | up_sampling2d_3            | UpSampling2D       | (None, 64, 64, 256)   |
+| 48    | up_sampling2d_2            | UpSampling2D       | (None, 64, 64, 128)   |
+| 49    | conv2d_5                   | Conv2D             | (None, 64, 64, 128)   |
+| 50    | add_4                      | Add                | (None, 64, 64, 128)   |
+| 51    | activation_11              | Activation         | (None, 64, 64, 128)   |
+| 52    | conv2d_transpose_4         | Conv2DTranspose    | (None, 64, 64, 64)    |
+| 53    | batch_normalization_11     | BatchNormalization | (None, 64, 64, 64)    |
+| 54    | activation_12              | Activation         | (None, 64, 64, 64)    |
+| 55    | conv2d_transpose_5         | Conv2DTranspose    | (None, 64, 64, 64)    |
+| 56    | batch_normalization_12     | BatchNormalization | (None, 64, 64, 64)    |
+| 57    | up_sampling2d_5            | UpSampling2D       | (None, 128, 128, 128) |
+| 58    | up_sampling2d_4            | UpSampling2D       | (None, 128, 128, 64)  |
+| 59    | conv2d_6                   | Conv2D             | (None, 128, 128, 64)  |
+| 60    | add_5                      | Add                | (None, 128, 128, 64)  |
+| 61    | activation_13              | Activation         | (None, 128, 128, 64)  |
+| 62    | conv2d_transpose_6         | Conv2DTranspose    | (None, 128, 128, 32)  |
+| 63    | batch_normalization_13     | BatchNormalization | (None, 128, 128, 32)  |
+| 64    | activation_14              | Activation         | (None, 128, 128, 32)  |
+| 65    | conv2d_transpose_7         | Conv2DTranspose    | (None, 128, 128, 32)  |
+| 66    | batch_normalization_14     | BatchNormalization | (None, 128, 128, 32)  |
+| 67    | up_sampling2d_7            | UpSampling2D       | (None, 256, 256, 64)  |
+| 68    | up_sampling2d_6            | UpSampling2D       | (None, 256, 256, 32)  |
+| 69    | conv2d_7                   | Conv2D             | (None, 256, 256, 32)  |
+| 70    | add_6                      | Add                | (None, 256, 256, 32)  |
+| 71    | conv2d_8                   | Conv2D             | (None, 256, 256, 2)   |
+|       | **Total param**: 2,058,690 |                    |                       |
 
-The
+The structure of this U-Net model can be summarized as 
 
+1. Input size: 256 \* 256
 
+2. Downsampling: Conv2D and MaxPooling to [128, 64, 32, 16] with depth of [32, 64, 128, 256]
+
+3. Upsampling: Up_Sampling2D and Conv2DTranspose to [32, 64, 128, 256] with depth of [128, 64, 32, 2]
+
+*The structure is inspired by [Image segmentation with a U-Net-like architecture](https://keras.io/examples/vision/oxford_pets_image_segmentation/)*
 
 
 
@@ -172,16 +178,33 @@ The result shows that in the past 25 months, increased density, broadened built 
 
 # Discussion
 
-Discuss the results of your approach.
+From what we discuss above, we believe it is safe to say that the model really does a great job. The U-Net structure works perfectly as expected. The downsampling and upsampling process enable the model successfully distinguish the buildings from other elements with a test accuracy of over 95.9%. From what we've learnt about U-Net, this is because:
 
-Did your machine learning method perform as expected? Why or why not? 
+- The downsampling path is creating something similar to a scale-space and loses gradually some locality in exchange for higher level features or a broader horizon.
+- And the upsampling path propagates these high-level, coarsely localized features into each original pixel.
 
-From what we discuss above, we believe it is safe to say that the model really does a great job. The Unet structure works perfectly as expected. The downsampling and upsampling process enable the model successfully distinguish the buildings from other elements with a test accuracy of over 95.9%. 
 
-The architecture...
 
-Did you solve your original problem? 
+Besides, we've noticed that this U-Net model works with relatively short training process. The validation accuracy went up to 90% with only half an epoch.
 
-How might your results be practically useful or applicable? 
 
-Also make sure to discuss any other approaches you tried, and why they were not successful
+
+In term of the use case, the users (property developers) can now observe urbanization and heated development area by simply inserting satellite images into this model. With the help of this approach, an American developer company can easily understand the development trends even in Africa given corresponding satellite images.
+
+
+
+We also tried other U-Net structures, like [this model]([https://github.com/zhixuhao/unet/blob/master/model.py)  from [GitHub - zhixuhao/unet: unet for image segmentation](https://github.com/zhixuhao/unet). However, the overwhelming number of parameters makes it the training time so long that it's almost impossible to finish even one epoch. Or an [OOM Error](https://stackoverflow.com/questions/63635126/gpu-out-of-memory-deep-learning-unet-network-with-tensorflow-how-to-solve-it) is thrown because of the large tensor shape. So this is one of the reasons why we chose this U-Net structure.
+
+
+
+# References
+
+- [U-Net: Convolutional Networks for Biomedical Image Segmentation](https://arxiv.org/pdf/1505.04597.pdf)
+
+- [Why U-Net?](http://www.computersdontsee.net/post/why-u-net/#:~:text=U%2DNet%20advantages&text=It%20has%20a%20simple%20structure,It%20exhibits%20good%20performance.)
+
+- [Multi-Temporal Urban Development Challenge](https://spacenet.ai/sn7-challenge/)
+
+- [Spacenet 7 Multi-Temporal Urban Development | Kaggle](https://www.kaggle.com/datasets/amerii/spacenet-7-multitemporal-urban-development)
+
+- [Image segmentation with a U-Net-like architecture](https://keras.io/examples/vision/oxford_pets_image_segmentation/)
